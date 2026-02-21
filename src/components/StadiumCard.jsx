@@ -44,9 +44,14 @@ const StadiumCard = ({ stadium, onSelect }) => {
            
            <div className="flex items-center gap-4 py-4 border-y border-slate-100">
              <div className="flex -space-x-3">
-               {[1, 2, 3].map(i => (
+               {/* Dynamic Indian-themed Avatars */}
+               {[
+                 "https://images.unsplash.com/photo-1507152832244-10d45c7eda57?q=80&w=200&auto=format&fit=crop",
+                 "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop",
+                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop"
+               ].map((url, i) => (
                  <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center overflow-hidden">
-                   <img src={`https://i.pravatar.cc/100?u=${stadium.id}${i}`} alt="" />
+                   <img src={url} alt="Indian User" className="w-full h-full object-cover" />
                  </div>
                ))}
                <div className="w-8 h-8 rounded-full border-2 border-white bg-primary flex items-center justify-center text-[10px] text-white font-black">

@@ -32,6 +32,4 @@ build_error.log
 Thumbs.db
 
 # Project specific
-server/bookings.json
-server/data/users.json
-server/data/bookings.json
+# (Data files now included in tracking as requested)
