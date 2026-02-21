@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, Loader2, AlertCircle, Calendar, Trophy, MapPin, User, LogIn, ChevronRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -38,22 +37,24 @@ const BookingForm = ({ selectedStadium, stadiums, onAuthRequired }) => {
     setStatus('loading');
     setErrorMessage('');
 
-    try {
+    // Mock Booking for Vercel Demo
+    setTimeout(() => {
       const selected = stadiums.find(s => s.id === formData.stadiumId);
-      const response = await axios.post('http://localhost:5000/api/bookings', {
-        ...formData,
-        userId: user.id,
-        sport: selected?.sport || 'General'
-      });
+      const mockBooking = {
+        id: 'BK-' + Math.random().toString(36).substring(7).toUpperCase(),
+        stadiumId: formData.stadiumId,
+        date: formData.date,
+        sport: selected?.sport || 'General',
+        paymentStatus: formData.paymentMethod === 'Cash' ? 'Pending' : 'Paid',
+        transactionId: formData.paymentMethod === 'Cash' ? null : 'TXN' + Math.random().toString(36).substring(7).toUpperCase()
+      };
 
-      setBookingResult(response.data.booking);
+      setBookingResult(mockBooking);
       setStatus('success');
       setFormData({ stadiumId: '', date: '', startTime: '09:00', endTime: '10:00', numPlayers: 1, paymentMethod: 'UPI' });
-      setTimeout(() => setStatus('idle'), 8000);
-    } catch (error) {
-      setStatus('error');
-      setErrorMessage(error.response?.data?.error || 'Something went wrong.');
-    }
+      // Keep success message visible for 10 seconds
+      setTimeout(() => setStatus('idle'), 10000);
+    }, 1500);
   };
 
   const targetStadium = stadiums.find(s => s.id === formData.stadiumId);

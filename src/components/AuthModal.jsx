@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, LogIn, UserPlus, Mail, Lock, User, Trophy, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
 
 const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
   const [mode, setMode] = useState(initialMode);
@@ -16,16 +15,18 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     setError('');
     setLoading(true);
 
-    try {
-      const endpoint = mode === 'login' ? '/api/auth/login' : '/api/auth/signup';
-      const response = await axios.post(`http://localhost:5000${endpoint}`, formData);
-      login(response.data.user);
-      onClose();
-    } catch (err) {
-      setError(err.response?.data?.error || 'Authentication failed.');
-    } finally {
+    // Mock Authentication for Vercel Demo
+    setTimeout(() => {
+      const mockUser = {
+        id: 'user-' + Math.random().toString(36).substring(7),
+        name: formData.name || 'Demo User',
+        email: formData.email,
+        mobile: formData.mobile || '9999999999'
+      };
+      login(mockUser);
       setLoading(false);
-    }
+      onClose();
+    }, 1000);
   };
 
   if (!isOpen) return null;

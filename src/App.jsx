@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -7,29 +6,15 @@ import Features from './components/Features';
 import StadiumCard from './components/StadiumCard';
 import BookingForm from './components/BookingForm';
 import AuthModal from './components/AuthModal';
+import { stadiums as staticStadiums } from './data/stadiums';
 
 const App = () => {
-  const [stadiums, setStadiums] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [stadiums] = useState(staticStadiums);
+  const [isLoading] = useState(false);
   const [selectedStadium, setSelectedStadium] = useState(null);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState('login');
   const [searchTerm, setSearchTerm] = useState('');
-
-  useEffect(() => {
-    const fetchStadiums = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get('http://localhost:5000/api/stadiums');
-        setStadiums(response.data);
-      } catch (err) {
-        console.error("Failed to fetch stadiums", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchStadiums();
-  }, []);
 
   const handleSelectStadium = (stadium) => {
     setSelectedStadium(stadium);
